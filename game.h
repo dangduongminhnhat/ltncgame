@@ -23,6 +23,9 @@ public:
     int getY();
     direction getDirection();
     void changeDirection();
+    void printScore();
+    void increaseScore(int);
+    int getScore();
 };
 
 class Game {
@@ -38,4 +41,7 @@ public:
     void updateRoads();
     bool updatePlayer();
     void playGame();
+    void startGame();
+    void runGame();
+    void resetGame();
 };

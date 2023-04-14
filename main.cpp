@@ -3,8 +3,7 @@
 int main() {
     system("cls");
     Game* game = new Game();
-    game->playGame();
-
+    game->runGame();
     delete game;
     return 0;
 }

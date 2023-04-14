@@ -52,6 +52,19 @@ void Player::changeDirection() {
     else if(this->d == down && getBoard(x, y + 1) == true) this->d = up;
 }
 
+void Player::printScore() {
+    gotoXY(90, 3);
+    printf("Score: %d", this->score);
+}
+
+void Player::increaseScore(int n) {
+    this->score += n;
+}
+
+int Player::getScore() {
+    return this->score;
+}
+
 // class Game
 
 Game::Game() {
@@ -59,14 +72,14 @@ Game::Game() {
     this->board = new Board();
     this->board->addRoad(11, 20, 200);
     this->remainTurn = 0;
-    nonUse = std::vector<int>(14, 0);
-    for(int i = 0; i < 14; i ++) nonUse[i] = i;
+    this->nonUse = std::vector<int>(14, 0);
+    for(int i = 0; i < 14; i ++) this->nonUse[i] = i;
 }
 
 Game::~Game() {
-    delete player;
-    delete board;
-    remainTurn = 0;
+    delete this->player;
+    delete this->board;
+    this->remainTurn = 0;
 }
 
 void Game::makeRoads() {
@@ -112,18 +125,98 @@ bool Game::updatePlayer() {
 
 void Game::playGame() {
     srand(time(NULL)); 
+    int turn = 0;
     while(true) {
+        turn ++;
+        if(turn % 10 == 0) player->increaseScore(1);
         resetBoardGame();
         system("cls");
         this->board->drawBoard();
         this->updateRoads();
         if(kbhit()) {
             char c = getch();
-            if(c == 'p') break;
+            if(c == 'p' || c == 'P') {
+                gotoXY(40, 23);
+                system("Pause");
+            }
             if(c == 'm' || c == 'M') this->player->changeDirection();
         }
         bool check = this->updatePlayer();
+        this->player->printScore();
         if(check == false) break;
     }
-    printf("DOne1");
+}
+
+void Game::startGame() {
+    system("cls");
+    this->board->drawBoard();
+    gotoXY(15, 7);
+    printf("Author's Name: Dang Duong Minh Nhat");
+    gotoXY(15, 8);
+    printf("Student's Id: 2110416");
+    gotoXY(45, 10);
+    printf("-----WELCOME TO MY GAME!!------");
+    gotoXY(15, 12);
+    printf("Instructions:");
+    gotoXY(17, 13);
+    printf("Press s or S to start game.");
+    gotoXY(17, 14);
+    printf("When you are in game, press p or P to pause game.");
+    gotoXY(17, 15);
+    printf("When you are in game, press m or M to change your direction (up or down).");
+    gotoXY(17, 16);
+    printf("Press q or Q to quit game.");
+    gotoXY(0, 23);
+}
+
+void Game::runGame() {
+    int highscore = 0;
+    while(true) {
+        bool endGame = false;
+        this->startGame();
+        while(true) {
+            if(kbhit()) {
+                char c = getch();
+                if(c == 's' || c == 'S') {
+                    this->playGame();
+                    break;
+                } else if(c == 'q' || c == 'Q') {
+                    endGame = true;
+                    break;
+                }
+            }
+        }
+        system("cls");
+        if(endGame) break;
+        highscore = (highscore > player->getScore()) ? highscore : player->getScore();
+        this->board->drawBoard();
+        gotoXY(15, 7);
+        printf("Author's Name: Dang Duong Minh Nhat");
+        gotoXY(15, 8);
+        printf("Student's Id: 2110416");
+        gotoXY(55, 10);
+        printf("Highscore: %d", highscore);
+        gotoXY(55, 11);
+        printf("Your Score: %d", player->getScore());
+        gotoXY(15, 13);
+        printf("Press c or C to continue.");
+        while(true) {
+            char c = getch();
+            if(c == 'c' || c == 'C') {
+                this->resetGame();
+                break;
+            }
+        }
+    }
+}
+
+void Game::resetGame() {
+    delete this->player;
+    delete this->board;
+    this->player = new Player(15, 19);
+    this->board = new Board();
+    this->board->addRoad(11, 20, 200);
+    this->remainTurn = 0;
+    this->nonUse = std::vector<int>(14, 0);
+    for(int i = 0; i < 14; i ++) this->nonUse[i] = i;
 }
