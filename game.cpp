@@ -131,7 +131,7 @@ void Game::playGame() {
         if(turn % 10 == 0) player->increaseScore(1);
         resetBoardGame();
         system("cls");
-        this->board->drawBoard();
+        // this->board->drawBoard();
         this->updateRoads();
         if(kbhit()) {
             char c = getch();
