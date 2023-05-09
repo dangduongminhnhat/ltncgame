@@ -143,8 +143,12 @@ void Game::playGame() {
         if(kbhit()) {
             char c = getch();
             if(c == 'p' || c == 'P') {
+                this->updatePlayer();
                 gotoXY(40, 23);
                 system("Pause");
+                this->player->erasePlayer();
+                gotoXY(40, 23);
+                printf("                               ");
             }
             if(c == 'm' || c == 'M') this->player->changeDirection();
             if(c == 'q' || c == 'Q') break;
