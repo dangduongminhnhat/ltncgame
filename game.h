@@ -15,6 +15,7 @@ public:
     Player(int, int);
     ~Player();
     void drawPlayer();
+    void erasePlayer();
     void goUp();
     void goDown();
     void goRight();

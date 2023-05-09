@@ -7,6 +7,7 @@
 void gotoXY(int, int); 
 void resetBoardGame();
 bool getBoard(int x, int y);
+void setBoard(int x, int y, bool b);
 
 class Point {
 private:
@@ -28,8 +29,9 @@ class Road {
 private:
     int length;
     Point *head;
+    Point* tail;
 public:
-    Road() : length(0), head(NULL) {}
+    Road() : length(0), head(NULL), tail(NULL) {}
     Road(int, int, int);
     ~Road();
     void drawRoad();
@@ -47,6 +49,7 @@ public:
     void addRoad(int, int, int);
     void drawBoard();
     void drawRoads();
+    void drawRoadIndex(int);
     void shilfLeftRoads();
     int deleteEmptyRoads();
 };

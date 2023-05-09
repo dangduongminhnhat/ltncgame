@@ -1,5 +1,4 @@
 #include "board.h"
-// #include "main.h"
 
 bool boardGame[100][15];
 
@@ -21,6 +20,10 @@ void resetBoardGame() {
 
 bool getBoard(int x, int y) {
     return boardGame[x][y];
+}
+
+void setBoard(int x, int y, bool b) {
+    boardGame[x][y] = b;
 }
 
 // class Point
@@ -51,6 +54,7 @@ void Point::create(char c) {
 
 void Point::erase() {
     gotoXY(this->x, this->y);
+    boardGame[this->x - 11][this->y - 6] = false;
     printf(" ");
 }
 
@@ -127,16 +131,22 @@ Board::~Board() {
     delete[] boardRoads;
 }
 
+void Board::drawRoadIndex(int n) {
+    this->boardRoads[n]->drawRoad();
+}
+
 // class Road
 
 Road::Road(int x, int y, int len) {
     this->head = new Point(x, y);
+    this->tail = new Point(x + len - 1, y);
     this->length = len;
 }
 
 Road::~Road() {
     this->length = 0;
-    delete head;
+    delete this->head;
+    delete this->tail;
 }
 
 void Road::drawRoad() {
@@ -154,8 +164,13 @@ int Road::getLength() {
 }
 
 void Road::shilfLeft() {
-    if(this->head->getX() > 11) head->changeX(-1);
+    if(this->head->getX() > 11) {
+        this->head->changeX(-1);
+        this->head->draw();
+    }
     else this->length --;
+    if(this->tail->getX() < 111) this->tail->erase();
+    this->tail->changeX(-1);
 }
 
 int Road::getY() {

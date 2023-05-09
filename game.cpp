@@ -15,7 +15,12 @@ Player::~Player() {
 }
 
 void Player::drawPlayer() {
-    this->p->create('O');
+    if(d == up) this->p->create(24);
+    else this->p->create(25);
+}
+
+void Player::erasePlayer() {
+    this->p->erase();
 }
 
 void Player::goUp() {
@@ -86,12 +91,13 @@ void Game::makeRoads() {
     int num = rand() % nonUse.size(), len = rand() % 40 + 40;
     this->remainTurn = len >> 1;
     this->board->addRoad(109, nonUse[num] + 6, len);
+    this->board->drawRoadIndex(nonUse[num]);
     this->nonUse.erase(nonUse.begin() + num);
 }
 
 void Game::updateRoads() {
     if(this->remainTurn == 0) this->makeRoads();
-    this->board->drawRoads();
+    // this->board->drawRoads();
     this->board->shilfLeftRoads();
     int num = this->board->deleteEmptyRoads();
     if(num != -1) nonUse.push_back(num);
@@ -126,12 +132,13 @@ bool Game::updatePlayer() {
 void Game::playGame() {
     srand(time(NULL)); 
     int turn = 0;
+    system("cls");
+    resetBoardGame();
+    this->board->drawBoard();
+    this->board->drawRoads();
     while(true) {
         turn ++;
         if(turn % 10 == 0) player->increaseScore(1);
-        resetBoardGame();
-        system("cls");
-        // this->board->drawBoard();
         this->updateRoads();
         if(kbhit()) {
             char c = getch();
@@ -140,10 +147,13 @@ void Game::playGame() {
                 system("Pause");
             }
             if(c == 'm' || c == 'M') this->player->changeDirection();
+            if(c == 'q' || c == 'Q') break;
         }
         bool check = this->updatePlayer();
         this->player->printScore();
+        Sleep(50);
         if(check == false) break;
+        this->player->erasePlayer();
     }
 }
 
