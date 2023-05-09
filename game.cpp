@@ -97,7 +97,6 @@ void Game::makeRoads() {
 
 void Game::updateRoads() {
     if(this->remainTurn == 0) this->makeRoads();
-    // this->board->drawRoads();
     this->board->shilfLeftRoads();
     int num = this->board->deleteEmptyRoads();
     if(num != -1) nonUse.push_back(num);
