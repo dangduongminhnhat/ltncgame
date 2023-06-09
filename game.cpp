@@ -135,6 +135,7 @@ void Game::playGame() {
     resetBoardGame();
     this->board->drawBoard();
     this->board->drawRoads();
+    int timeSleep = 50;
     while(true) {
         turn ++;
         if(turn % 10 == 0) player->increaseScore(1);
@@ -154,7 +155,8 @@ void Game::playGame() {
         }
         bool check = this->updatePlayer();
         this->player->printScore();
-        Sleep(50);
+        if(timeSleep > 20 && turn % 50 == 0) timeSleep --;
+        Sleep(timeSleep);
         if(check == false) break;
         this->player->erasePlayer();
     }

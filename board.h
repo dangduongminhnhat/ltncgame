@@ -1,6 +1,5 @@
 #include<iostream>
 #include<Windows.h>
-#include"main.h"
 
 #define MAX_LENGTH_ROAD 80
 
