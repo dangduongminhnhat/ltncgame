@@ -1,3 +1,6 @@
+#ifndef __GAME_H__
+#define __GAME_H__
+
 #include "board.h"
 #include<vector>
 #include <cstdlib>
@@ -46,3 +49,5 @@ public:
     void runGame();
     void resetGame();
 };
+
+#endif

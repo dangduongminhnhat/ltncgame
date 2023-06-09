@@ -1,3 +1,6 @@
+#ifndef __BOARD_H__
+#define __BOARD_H__
+
 #include<iostream>
 #include<Windows.h>
 
@@ -52,3 +55,5 @@ public:
     void shilfLeftRoads();
     int deleteEmptyRoads();
 };
+
+#endif
